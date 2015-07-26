@@ -1,0 +1,23 @@
+{
+    "name": "beastbytes/yii2-microformats",
+    "description": "Yii2 Widget to generate microformats2 from model data",
+    "keywords": ["yii2", "microformat", "microformats", "microformats2", "widget"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/beastbytes/yii2-microformats/issues",
+        "source": "https://github.com/beastbytes/yii2-microformats"
+    },
+    "authors": [
+        {
+            "name": "Chris Yates",
+            "email": "chris.l.yates@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": { "beastbytes\\microformats\\": "" }
+    }
+}
