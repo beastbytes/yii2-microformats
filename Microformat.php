@@ -121,7 +121,7 @@ class Microformat extends \yii\widgets\DetailView
      * An attribute can use a specific template by setting theattribute template
      * property.
      */
-    public $template = '<div><span>{label}</span><span {options}>{value}</span></div>';
+    public $template = '<div {options}><span class="label">{label}</span><span class="value">{value}</span></div>';
 
     /**
      * Initialises the widget
@@ -148,7 +148,7 @@ class Microformat extends \yii\widgets\DetailView
 
         echo Html::beginTag($tag, $options);
         foreach ($this->attributes as $i => $attribute) {
-            if (!isset($attribute['label'])) { // embedded Microformat
+            if (isset($attribute['microformat'])) { // embedded Microformat
                 echo $attribute['value'];
             } else {
                 if (isset($attribute['property'])) {
@@ -263,15 +263,24 @@ class Microformat extends \yii\widgets\DetailView
         $template = ArrayHelper::getValue($attribute, 'template', $this->template);
 
         if (is_string($template)) {
-            return strtr($template, [
-                '{label}' => $attribute['label'],
-                '{options}' => Html::renderTagAttributes($attribute['options']),
-                '{rawValue}' => $attribute['value'],
-                '{value}' => $this->formatter->format(
-                    $attribute['value'],
-                    $attribute['format']
-                )
-            ]);
+            if (isset($attribute['label'])) {
+                return strtr($template, [
+                    '{label}' => $attribute['label'],
+                    '{options}' => Html::renderTagAttributes($attribute['options']),
+                    '{rawValue}' => $attribute['value'],
+                    '{value}' => $this->formatter->format(
+                        $attribute['value'],
+                        $attribute['format']
+                    )
+                ]);
+            } else {
+                return strtr($template, [
+                    '{value}' => $this->formatter->format(
+                        $attribute['value'],
+                        $attribute['format']
+                    )
+                ]);
+            }
         } else {
             return call_user_func($template, $attribute, $index, $this);
         }
